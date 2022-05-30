@@ -26,13 +26,11 @@ def spawn_food():
     display.set_pen(255, 0, 0)
     display.rectangle(food_x, food_y, 20, 20)
     
-    pix = display.pixel(food_x+1, food_y+1)
-    
     display.set_pen(255, 255, 255)
     return (food_x, food_y)
 
 def check_game_over(coords, x, y, snake_len):
-    if x+20 > WIDTH or y+20 > HEIGHT:
+    if x+20 > WIDTH or y+20 > HEIGHT or x < 0 or y < 0:
         return True;
     
     for coord in coords:
@@ -62,8 +60,6 @@ coords = []
 
 # move loop
 while True:
-    
-    print(food_x)
     if x == food_x and y == food_y:
         snake_len += 1
         food_x, food_y = spawn_food()
