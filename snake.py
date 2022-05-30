@@ -18,13 +18,15 @@ button_x = Button(14)
 button_y = Button(15)
 
 def spawn_food():
+    # TODO: Prevent spawning of the food inside the snake
+    # -> check coords list
+    
     food_x = random.randrange(0, WIDTH, 20)
     food_y = random.randrange(0, HEIGHT, 20)
     display.set_pen(255, 0, 0)
     display.rectangle(food_x, food_y, 20, 20)
     
     pix = display.pixel(food_x+1, food_y+1)
-    print(pix)
     
     display.set_pen(255, 255, 255)
     return (food_x, food_y)
@@ -75,15 +77,20 @@ while True:
     
     # following figures will be in this color:
     display.set_pen(255, 255, 255)
+    
+    
     x += 20 * x_dir
     y += 20 * y_dir
+    
+    for coord in coords:
+        collision_x, collision_y = coord
+        if collision_x == x and collision_y == y:
+            print("game over!")
+            break
+    
     display.rectangle(x, y, 20, 20)
 
 
-#    x += 20
-    
-    # segment despawn part
-    
     
     # despawn the last segement
     # using a list in order to save the last segment's position
