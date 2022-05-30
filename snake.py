@@ -31,6 +31,17 @@ def spawn_food():
     display.set_pen(255, 255, 255)
     return (food_x, food_y)
 
+def check_game_over(coords, x, y, snake_len):
+    if x+20 > WIDTH or y+20 > HEIGHT:
+        return True;
+    
+    for coord in coords:
+        collision_x, collision_y = coord
+        if collision_x == x and collision_y == y:
+            return True
+
+    return False
+
 food_x, food_y = spawn_food()
 
 x = 160
@@ -82,11 +93,9 @@ while True:
     x += 20 * x_dir
     y += 20 * y_dir
     
-    for coord in coords:
-        collision_x, collision_y = coord
-        if collision_x == x and collision_y == y:
-            print("game over!")
-            break
+    game_over = check_game_over(coords, x, y, snake_len)
+    if game_over:
+        break
     
     display.rectangle(x, y, 20, 20)
 
@@ -96,7 +105,7 @@ while True:
     # using a list in order to save the last segment's position
     if len(coords) == snake_len:
         # black -> 'despawn' the segment
-        display.set_pen(100, 0, 0)
+        display.set_pen(0, 0, 0)
         last_x, last_y = coords[0]
         display.rectangle(last_x, last_y, 20, 20)
         coords.pop(0)
@@ -109,8 +118,12 @@ while True:
     display.update()
     
     # wait till next move
-    utime.sleep(0.8)
+    utime.sleep(0.6)
 
+
+display.set_pen(255, 255, 255)
+display.text("Snake ist wohl nicht deine Staerke..", 6, 6, 6, 3)
+display.update()
 
 
  
