@@ -17,9 +17,27 @@ button_b = Button(13)
 button_x = Button(14)
 button_y = Button(15)
 
-def spawn_food():
+def check_snake_collision(coords, x, y):
+    for coord in coords:
+        collision_x, collision_y = coord
+        if collision_x == x and collision_y == y:
+            return True
+    return False
+
+def rand_pos():
+    food_x = random.randrange(0, WIDTH, 20)
+    food_y = random.randrange(0, HEIGHT, 20)
+    return (food_x, food_y)
+
+def spawn_food(coords):
     # TODO: Prevent spawning of the food inside the snake
     # -> check coords list
+    
+    
+    food_x, food_y = rand_pos()
+    while check_snake_collision(coords, food_x, food_y):
+        food_x, food_y = rand_pos()
+    
     
     food_x = random.randrange(0, WIDTH, 20)
     food_y = random.randrange(0, HEIGHT, 20)
@@ -28,19 +46,15 @@ def spawn_food():
     
     display.set_pen(255, 255, 255)
     return (food_x, food_y)
+    
 
-def check_game_over(coords, x, y, snake_len):
+def check_game_over(coords, x, y):
     if x+20 > WIDTH or y+20 > HEIGHT or x < 0 or y < 0:
         return True;
     
-    for coord in coords:
-        collision_x, collision_y = coord
-        if collision_x == x and collision_y == y:
-            return True
+    return check_snake_collision(coords, x, y)
 
-    return False
-
-food_x, food_y = spawn_food()
+food_x, food_y = spawn_food([])
 
 x = 160
 y = 120
@@ -62,7 +76,7 @@ coords = []
 while True:
     if x == food_x and y == food_y:
         snake_len += 1
-        food_x, food_y = spawn_food()
+        food_x, food_y = spawn_food(coords)
         
     
     if y_dir != 0:
@@ -89,12 +103,11 @@ while True:
     x += 20 * x_dir
     y += 20 * y_dir
     
-    game_over = check_game_over(coords, x, y, snake_len)
+    game_over = check_game_over(coords, x, y)
     if game_over:
         break
     
     display.rectangle(x, y, 20, 20)
-
 
     
     # despawn the last segement
