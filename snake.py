@@ -38,9 +38,6 @@ def spawn_food(coords):
     while check_snake_collision(coords, food_x, food_y):
         food_x, food_y = rand_pos()
     
-    
-    food_x = random.randrange(0, WIDTH, 20)
-    food_y = random.randrange(0, HEIGHT, 20)
     display.set_pen(255, 0, 0)
     display.rectangle(food_x, food_y, 20, 20)
     
