@@ -48,9 +48,9 @@ def check_game_over(coords, x, y):
     return check_snake_collision(coords, x, y)
 
 def lost_game():
-    display.set_pen(255, 255, 255)
+    display.set_pen(0, 255, 0)
     display.text("Snake ist wohl nicht deine Staerke..", 6, 6, 6, 3)
-    display.text("press x to restart", 6, 6, 6, 3)
+    display.text("press 'x' to restart", 200, 6, 6, 3)
     display.update()
     
     while True:
@@ -137,7 +137,7 @@ def game_loop():
         display.update()
         
         # wait till next move
-        utime.sleep(0.55)
+        utime.sleep(0.45)
 
     
 game_loop()
